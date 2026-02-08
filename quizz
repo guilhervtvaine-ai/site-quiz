@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Interativo para Programadores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    main {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .question {
+      margin-bottom: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<main>
+
+  <!-- Introdução -->
+  <section id="intro">
+    <h1>Quiz Interativo para Programadores</h1>
+    <p>Teste seu conhecimento em programação e veja qual pontuação você consegue fazer!</p>
+  </section>
+
+  <!-- Sobre -->
+  <section id="about">
+    <h2>Sobre esse quiz</h2>
+    <p>
+      Este quiz foi desenvolvido para testar seus conhecimentos em programação,
+      abordando linguagens, conceitos básicos e desenvolvimento web.
+    </p>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz">
+    <h2>Perguntas</h2>
+
+    <form id="quizForm">
+
+      <div class="question">
+        <p>1. Qual linguagem é usada para estruturar páginas web?</p>
+        <input type="radio" name="q1" value="Python"> Python<br>
+        <input type="radio" name="q1" value="HTML"> HTML<br>
+        <input type="radio" name="q1" value="JavaScript"> JavaScript<br>
+        <input type="radio" name="q1" value="Ruby"> Ruby
+      </div>
+
+      <div class="question">
+        <p>2. Na URL https://www.google.com o trecho "google.com" é o:</p>
+        <input type="text" name="q2">
+      </div>
+
+      <div class="question">
+        <p>3. Escreva um exemplo de senha forte:</p>
+        <input type="text" name="q3">
+      </div>
+
+      <div class="question">
+        <p>4. Em que ano o HTML lançou sua primeira versão?</p>
+        <input type="date" name="q4">
+      </div>
+
+      <div class="question">
+        <p>5. Quais dessas tecnologias são linguagens de programação?</p>
+        <input type="checkbox" name="q5" value="JavaScript"> JavaScript<br>
+        <input type="checkbox" name="q5" value="HTML"> HTML<br>
+        <input type="checkbox" name="q5" value="Java"> Java<br>
+        <input type="checkbox" name="q5" value="CSS"> CSS
+      </div>
+
+      <div class="question">
+        <p>6. Faça o upload de um arquivo HTML:</p>
+        <input type="file" name="q6" accept=".html">
+      </div>
+
+      <div class="question">
+        <p>7. Qual atributo do input define o seu tipo?</p>
+        <input type="radio" name="q7" value="id"> id<br>
+        <input type="radio" name="q7" value="type"> type<br>
+        <input type="radio" name="q7" value="class"> class
+      </div>
+
+      <div class="question">
+        <p>8. Qual linguagem de programação é representada pelo logotipo abaixo?</p>
+        <img src="pergunta8.jpeg" alt="Logotipo de uma linguagem de programação" width="100"><br>
+        <input type="text" name="q8">
+      </div>
+
+      <button type="button" onclick="corrigir()">Enviar respostas</button>
+    </form>
+
+    <p class="result" id="resultado"></p>
+  </section>
+
+  <!-- Pontuação -->
+  <section id="score">
+    <h2>Tabela de Pontuação</h2>
+    <ul>
+      <li>0–2: Não desista! Cada tentativa é uma oportunidade de aprender.</li>
+      <li>3–4: Você ainda precisa melhorar. Estude mais.</li>
+      <li>5–7: Bom! Seu conhecimento está satisfatório.</li>
+      <li>8: Perfeito! Você está muito bem informado!</li>
+    </ul>
+  </section>
+
+  <!-- Feedback -->
+  <section id="feedback">
+    <h2>Nos dê seu feedback</h2>
+
+    <form id="feedbackForm">
+      <div class="question">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+      </div>
+
+      <div class="question">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="question">
+        <label for="comentario">Comentário:</label>
+        <textarea id="comentario" name="comentario" rows="4" required></textarea>
+      </div>
+
+      <button type="submit">Enviar feedback</button>
+    </form>
+  </section>
+
+  <!-- Rodapé -->
+  <section id="footer">
+    <p>© Quiz de Programadores. Todos os direitos reservados.</p>
+  </section>
+
+</main>
+
+<script>
+  function corrigir() {
+    let pontos = 0;
+
+    if (document.querySelector('input[name="q1"]:checked')?.value === "HTML") pontos++;
+    if (document.querySelector('input[name="q2"]').value.toLowerCase().includes("domínio")) pontos++;
+    if (document.querySelector('input[name="q3"]').value.length >= 8) pontos++;
+    if (document.querySelector('input[name="q4"]').value.startsWith("1991")) pontos++;
+
+    const q5 = [...document.querySelectorAll('input[name="q5"]:checked')].map(e => e.value);
+    if (q5.includes("JavaScript") && q5.includes("Java") && q5.length === 2) pontos++;
+
+    if (document.querySelector('input[name="q6"]').files.length > 0) pontos++;
+    if (document.querySelector('input[name="q7"]:checked')?.value === "type") pontos++;
+    if (document.querySelector('input[name="q8"]').value !== "") pontos++;
+
+    document.getElementById("resultado").innerText =
+      `Você fez ${pontos} de 8 pontos.`;
+  }
+</script>
+<link rel="stylesheet" href="index.css">
+
+</body>
+</html>
